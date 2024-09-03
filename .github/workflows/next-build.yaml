@@ -154,7 +154,7 @@ jobs:
         timeout-minutes: 40
         run: pnpm compile:next
         env:
-          GITHUB_RELEASE_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
 
   release:
     needs: [tag, build]
