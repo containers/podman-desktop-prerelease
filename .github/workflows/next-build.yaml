@@ -56,6 +56,7 @@ jobs:
       - name: tag
         run: |
           git config --local user.name ${{ github.actor }}
+          git config --local user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
           sed -i  "s#version\":\ \"\(.*\)\",#version\":\ \"${{ steps.TAG_UTIL.outputs.desktopVersion }}\",#g" package.json
           find extensions/* -maxdepth 2 -name "package.json" | xargs -I {} sed -i "s#version\":\ \"\(.*\)\",#version\":\ \"${{ steps.TAG_UTIL.outputs.desktopVersion }}\",#g" {}
           # change the repository field to be the prerelease repository in package.json file
