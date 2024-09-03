@@ -65,7 +65,7 @@ jobs:
           git tag ${{ steps.TAG_UTIL.outputs.githubTag }}
           # push tag to the preleases repository
           git remote add prereleases https://github.com/containers/podman-desktop-prereleases
-          git push origin ${{ steps.TAG_UTIL.outputs.githubTag }}
+          git push prereleases ${{ steps.TAG_UTIL.outputs.githubTag }}
         env:
           GITHUB_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
 
