@@ -72,14 +72,10 @@ jobs:
           echo "pushing tag..."
           git fetch prereleases
           git push --no-thin prereleases ${{ steps.TAG_UTIL.outputs.githubTag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
 
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
         with:
           tag: ${{ steps.TAG_UTIL.outputs.githubTag }}
           name: ${{ steps.TAG_UTIL.outputs.githubTag }}
@@ -87,6 +83,7 @@ jobs:
           prerelease: true
           owner: containers
           repo: podman-desktop-prereleases
+          token: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
 
   build:
     name: Build / ${{ matrix.os }}
@@ -173,6 +170,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
         with:
           id: ${{ needs.tag.outputs.releaseId}}
+          repo: podman-desktop-prereleases
+          owner: containers
 
   publish:
     needs: [tag, release]
