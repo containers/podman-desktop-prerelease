@@ -56,12 +56,19 @@ jobs:
           git config --local user.name ${{ github.actor }}
           sed -i  "s#version\":\ \"\(.*\)\",#version\":\ \"${{ steps.TAG_UTIL.outputs.desktopVersion }}\",#g" package.json
           find extensions/* -maxdepth 2 -name "package.json" | xargs -I {} sed -i "s#version\":\ \"\(.*\)\",#version\":\ \"${{ steps.TAG_UTIL.outputs.desktopVersion }}\",#g" {}
+          # change the repository field to be the prerelease repository in package.json file
+          sed -i "s#\"repository\":\ \"\(.*\)\",#\"repository\":\ \"https://github.com/containers/podman-desktop-prereleases\",#g" package.json
           cat package.json
           git add package.json extensions/*/package.json
           git commit -m "chore: tag ${{ steps.TAG_UTIL.outputs.githubTag }}"
           echo "Tagging with ${{ steps.TAG_UTIL.outputs.githubTag }}"
           git tag ${{ steps.TAG_UTIL.outputs.githubTag }}
+          # push tag to the preleases repository
+          git remote add prereleases https://github.com/containers/podman-desktop-prereleases
           git push origin ${{ steps.TAG_UTIL.outputs.githubTag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
+
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
@@ -140,6 +147,8 @@ jobs:
       - name: Run Build
         timeout-minutes: 40
         run: pnpm compile:next
+        env:
+          GITHUB_RELEASE_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
 
   release:
     needs: [tag, build]
@@ -152,7 +161,7 @@ jobs:
       - name: Publish release
         uses: StuYarrow/publish-release@v1.1.2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PODMAN_DESKTOP_BOT_TOKEN }}
         with:
           id: ${{ needs.tag.outputs.releaseId}}
 
