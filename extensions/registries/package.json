@@ -2,7 +2,7 @@
   "name": "registries",
   "displayName": "Registries",
   "description": "Adds default registries for Quay, DockerHub, GitHub, and Google Container Registry",
-  "version": "1.14.0-next",
+  "version": "1.14.0-202410220705-3dab21d67a",
   "icon": "icon.png",
   "publisher": "podman-desktop",
   "license": "Apache-2.0",
