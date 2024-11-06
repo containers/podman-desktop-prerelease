@@ -1,9 +1,9 @@
 {
   "name": "podman-desktop",
   "productName": "Podman Desktop",
-  "repository": "https://github.com/containers/podman-desktop",
+  "repository": "https://github.com/containers/podman-desktop-prereleases",
   "homepage": "https://www.podman-desktop.io",
-  "version": "1.15.0-next",
+  "version": "1.15.0-202411061053-c5d4b14f49",
   "license": "apache-2.0",
   "type": "module",
   "private": true,
